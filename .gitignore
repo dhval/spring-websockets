@@ -1,3 +1,6 @@
+bower_components/
+node_modules/
+
 target/
 .settings/
 .springBeans
@@ -5,3 +8,5 @@ target/
 .project
 .idea/
 *.iml
+*.log
+**/dist/

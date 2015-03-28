@@ -2,12 +2,13 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>bk.si</groupId>
-	<artifactId>si-spring-websockets</artifactId>
+	<groupId>demo.websockets</groupId>
+	<artifactId>spring-websockets</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>si-spring-websockets</name>
+	<name>websockets</name>
 	<url>http://maven.apache.org</url>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -58,7 +59,12 @@
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf-spring4</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -67,7 +73,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 	<repositories>
 		<repository>

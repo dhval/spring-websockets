@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <title>Earthquake in the last hour..</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-theme.css}" href="../../static/css/bootstrap-theme.css"/>
@@ -11,67 +11,91 @@
     <script th:src="@{/js/jquery-1.7.2.js}" src="../../js/jquery-1.7.2.js"></script>
     <script th:src="@{/js/moment.min.js}" src="../../js/moment.min.js"></script>
     <script th:inline="javascript">
-    /*<![CDATA[*/
-          $(document).ready(function() {
-              connect();
-          });
-          var stompClient = null;
+        /*<![CDATA[*/
+        $(document).ready(function () {
+            (function () {
+                var old = console.log;
+                var logger = document.getElementById('log');
+                console.log = function (message) {
+                    if (typeof message == 'object') {
+                        logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />';
+                    } else {
+                        logger.innerHTML += message + '<br />';
+                    }
+                }
+            })();
+        });
+        /*]]>*/
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(document).ready(function () {
+            connect();
+        });
+        var stompClient = null;
 
 
-          function connect() {
-              var socket = new SockJS('/quakesep');
-              stompClient = Stomp.over(socket);
-              stompClient.connect({}, function(frame) {
-                  console.log('Connected: ' + frame);
-                  stompClient.subscribe('/topic/quakes.all', function(message){
-                      showQuakeInfo(message.body);
-                  });
-              });
-          }
+        function connect() {
+            var socket = new SockJS('/quakesep');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/quakes.all', function (message) {
+                    showQuakeInfo(message.body);
+                });
+            });
+        }
 
 
-          function showQuakeInfo(quakeCollectionJson) {
-              var quakeCollection = $.parseJSON(quakeCollectionJson);
-              var quakeFeatures = quakeCollection.features
-              var response = $("#quakebody");
-              response.empty();
-              for (var i=0; i < quakeFeatures.length;i++) {
-                  var quakeFeature = quakeFeatures[i];
-                  var place = quakeFeature.properties.place;
-                  var magnitude = quakeFeature.properties.mag;
-                  var time = new Date(parseInt(quakeFeature.properties.time));
-                  var tr = $("<tr/>");
-                  tr.append($("<td/>").text(magnitude));
-                  tr.append($("<td/>").text(place));
-                  tr.append($("<td/>").text(moment(time).format('MMMM Do YYYY, h:mm:ss a')));
-                  response.append(tr);
-              }
-          }
-      /*]]>*/
-      </script>
-  </head>
-  <body>
-    <div class="container">
-	    <div class="row">
-		    <div class="col-sm-12">
-		     	<h1 class="well well-small">Quake Locations</h1>
-		     </div> 
-	    </div>	
-	    <div class="row">
-		    <div class="col-sm-12">
-		      <table class="table table-bordered table-striped">
-		        <thead>
-		          <tr>
-		            <th width="20%">Magnitude</th>
-		            <th width="50%">Place</th>
-		            <th width="30%">Time</th>
-		          </tr>
-		        </thead>
-		        <tbody id="quakebody">
-		        </tbody>
-		      </table>
-			</div>
-		</div>    
+        function showQuakeInfo(quakeCollectionJson) {
+            var quakeCollection = $.parseJSON(quakeCollectionJson);
+            var quakeFeatures = quakeCollection.features
+            var response = $("#quakebody");
+            response.empty();
+            for (var i = 0; i < quakeFeatures.length; i++) {
+                var quakeFeature = quakeFeatures[i];
+                var place = quakeFeature.properties.place;
+                var magnitude = quakeFeature.properties.mag;
+                var time = new Date(parseInt(quakeFeature.properties.time));
+                var tr = $("<tr/>");
+                tr.append($("<td/>").text(magnitude));
+                tr.append($("<td/>").text(place));
+                tr.append($("<td/>").text(moment(time).format('MMMM Do YYYY, h:mm:ss a')));
+                response.append(tr);
+            }
+        }
+        /*]]>*/
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="well well-small">Hourly Earth Quakes Map</h1>
+        </div>
     </div>
-  </body>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th width="20%">Magnitude</th>
+                    <th width="50%">Place</th>
+                    <th width="30%">Time</th>
+                </tr>
+                </thead>
+                <tbody id="quakebody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="log" style="margin:30px 5%;height:400px;overflow-y:auto;">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Stomp AMQP - Websockets Logs</h4>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 </html>
