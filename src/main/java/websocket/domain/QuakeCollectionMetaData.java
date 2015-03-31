@@ -1,4 +1,4 @@
-package standalone.domain;
+package websocket.domain;
 
 import java.util.Date;
 

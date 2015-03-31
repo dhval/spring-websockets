@@ -22,7 +22,7 @@
 		</triggeringPolicy>
 	</appender>
 	<logger name="org.springframework.integration" level="INFO" />
-	<root level="DEBUG">
+	<root level="INFO">
 		<appender-ref ref="CONSOLE" />
 		<!--
         <appender-ref ref="FILE" />

@@ -1,6 +1,8 @@
 bower_components/
 node_modules/
 
+secret.properties
+
 target/
 .settings/
 .springBeans

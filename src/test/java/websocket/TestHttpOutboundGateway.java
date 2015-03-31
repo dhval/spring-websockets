@@ -1,4 +1,4 @@
-package standalone;
+package websocket;
 
 
 import static org.hamcrest.MatcherAssert.assertThat;

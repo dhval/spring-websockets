@@ -47,7 +47,7 @@ var jQuery = function( selector, context ) {
 	trimLeft = /^\s+/,
 	trimRight = /\s+$/,
 
-	// Match a standalone tag
+	// Match a websocket tag
 	rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>)?$/,
 
 	// JSON RegExp
